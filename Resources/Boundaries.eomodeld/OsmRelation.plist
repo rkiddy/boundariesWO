@@ -1,0 +1,33 @@
+{
+    attributes = (
+        {allowsNull = Y; columnName = fips; name = fips; prototypeName = longText; }, 
+        {allowsNull = Y; columnName = name; name = name; prototypeName = varchar255; }, 
+        {allowsNull = Y; columnName = note; name = note; prototypeName = varchar255; }, 
+        {
+            className = "java.lang.Number"; 
+            columnName = pk; 
+            externalType = INT; 
+            name = pk; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {allowsNull = Y; columnName = place; name = place; prototypeName = longText; }, 
+        {
+            allowsNull = Y; 
+            className = "java.lang.Number"; 
+            columnName = ups; 
+            externalType = INT; 
+            name = ups; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {allowsNull = Y; columnName = url; name = url; prototypeName = varchar255; }
+    ); 
+    attributesUsedForLocking = (pk); 
+    className = "org.ganymede.boundaries.eo.OsmRelation"; 
+    classProperties = (fips, name, note, pk, place, ups, url); 
+    externalName = "osm_relations"; 
+    fetchSpecificationDictionary = {}; 
+    name = OsmRelation; 
+    primaryKeyAttributes = (pk); 
+}

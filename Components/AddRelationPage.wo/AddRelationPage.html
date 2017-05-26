@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>OSM Relations</title>
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity = "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin = "anonymous" />
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity = "sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin = "anonymous" />
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity = "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin = "anonymous">
+    </script>
+  </head>
+  <body>
+    <h2 align = "center">Add New OSM Relation</h2>
+    <wo:if condition = "$message">
+      <h3><wo:str value = "$message" /></h3>
+    </wo:if>
+    <wo:form>
+    <table class = "table">
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td><wo:WOTextField value = "$relationName" size = "40" /></td>
+        </tr>
+        <tr>
+          <td>Place</td>
+          <td><wo:WOTextField value = "$relationPlace" /></td>
+        </tr>
+        <tr>
+          <td>URL</td>
+          <td><wo:WOTextField value = "$relationUrl" size = "80" /></td>
+        </tr>
+        <tr>
+          <td>Is&nbsp;Ok</td>
+          <td><wo:WOTextField value = "$relationUps" size = "5" /></td>
+        </tr>
+        <tr>
+          <td>Note</td>
+          <td><wo:WOText value = "$relationNote" cols = "80" rows = "3" /></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <wo:submit action = "$save" />
+            &nbsp;&nbsp; 
+            <wo:link action = "$cancelForm">Cancel</wo:link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </wo:form>
+  </body>
+</html>

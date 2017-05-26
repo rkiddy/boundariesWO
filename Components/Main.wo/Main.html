@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>OSM Relations</title>
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity = "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin = "anonymous" />
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity = "sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin = "anonymous" />
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity = "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin = "anonymous">
+    </script>
+  </head>
+  <body>
+    <h2 align = "center">OSM Relations</h2>
+    <div class = "container">
+      <wo:form>
+        <p align = "right">
+          <wo:link action = "$addOne">Add&nbsp;One</wo:link>
+          &nbsp;&nbsp;
+          <wo:submit value = "Save Changes" action = "$save" />
+        </p>
+        <table class = "table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Place</th>
+              <th>URL</th>
+              <th>Is&nbsp;Ok</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <wo:loop list = "$relations" item = "$relation">
+              <tr>
+                <td>
+                  <wo:AjaxInPlace>
+                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.name" /></wo:ERXWOTemplate>
+                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.name" /></wo:ERXWOTemplate>
+                  </wo:AjaxInPlace>
+                </td>
+                <td>
+                  <wo:AjaxInPlace>
+                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.place" /></wo:ERXWOTemplate>
+                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.place" /></wo:ERXWOTemplate>
+                  </wo:AjaxInPlace>
+                </td>
+                <td>
+                  <wo:AjaxInPlace>
+                    <wo:ERXWOTemplate templateName = "view">
+                      <wo:link href = "$relation.fullUrl"><wo:str value = "$relation.url" /></wo:link>
+                    </wo:ERXWOTemplate>
+                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.url" /></wo:ERXWOTemplate>
+                  </wo:AjaxInPlace>
+                </td>
+                <td>
+                  <wo:AjaxInPlace>
+                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.ups" /></wo:ERXWOTemplate>
+                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.ups" /></wo:ERXWOTemplate>
+                  </wo:AjaxInPlace>
+                </td>
+                <td>
+                  <wo:AjaxInPlace>
+                    <wo:ERXWOTemplate templateName = "view">
+                      <wo:if condition = "$relation.note"><wo:str value = "$relation.note" /></wo:if>
+                      <wo:else>...</wo:else>
+                    </wo:ERXWOTemplate>
+                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.note" /></wo:ERXWOTemplate>
+                  </wo:AjaxInPlace>
+                </td>
+              </tr>
+            </wo:loop>
+          </tbody>
+        </table>
+      </wo:form>
+    </div>
+  </body>
+</html>

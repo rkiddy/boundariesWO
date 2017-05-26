@@ -1,0 +1,12 @@
+{
+    EOModelVersion = "2.1"; 
+    adaptorName = JDBC; 
+    connectionDictionary = {
+        URL = "jdbc:mysql://localhost/openstreetmap"; 
+        password = alexna11; 
+        username = ray; 
+    }; 
+    entities = ({className = "org.ganymede.boundaries.eo.OsmRelation"; name = OsmRelation; }); 
+    internalInfo = {"_deletedEntityNamesInObjectStore" = (OsmRelation); }; 
+    userInfo = {"_EntityModeler" = {reverseEngineered = Y; }; }; 
+}
