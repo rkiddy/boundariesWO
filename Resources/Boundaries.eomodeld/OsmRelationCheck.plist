@@ -1,0 +1,59 @@
+{
+    attributes = (
+        {
+            className = "java.lang.Number"; 
+            columnName = "check_result"; 
+            externalType = INT; 
+            name = checkResult; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {
+            columnName = "end_condition"; 
+            externalType = DATETIME; 
+            name = endCondition; 
+            valueClassName = NSCalendarDate; 
+            valueType = T; 
+        }, 
+        {
+            className = "java.lang.Number"; 
+            columnName = pk; 
+            externalType = INT; 
+            name = pk; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {
+            className = "java.lang.Number"; 
+            columnName = "relation_pk"; 
+            externalType = INT; 
+            name = relationPk; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {
+            columnName = "start_condition"; 
+            externalType = DATETIME; 
+            name = startCondition; 
+            valueClassName = NSCalendarDate; 
+            valueType = T; 
+        }
+    ); 
+    attributesUsedForLocking = (pk, relationPk); 
+    className = "org.ganymede.boundaries.eo.OsmRelationCheck"; 
+    classProperties = (checkResult, endCondition, relation, startCondition); 
+    externalName = "osm_relation_checks"; 
+    fetchSpecificationDictionary = {}; 
+    name = OsmRelationCheck; 
+    primaryKeyAttributes = (pk); 
+    relationships = (
+        {
+            destination = OsmRelation; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = pk; sourceAttribute = relationPk; }); 
+            name = relation; 
+        }
+    ); 
+}

@@ -3,10 +3,15 @@
     adaptorName = JDBC; 
     connectionDictionary = {
         URL = "jdbc:mysql://localhost/openstreetmap"; 
-        password = alexna11; 
+        password = notapassword; 
         username = ray; 
     }; 
-    entities = ({className = "org.ganymede.boundaries.eo.OsmRelation"; name = OsmRelation; }); 
-    internalInfo = {"_deletedEntityNamesInObjectStore" = (OsmRelation); }; 
+    entities = (
+        {className = "org.ganymede.boundaries.eo.OsmRelation"; name = OsmRelation; }, 
+        {
+            className = "org.ganymede.boundaries.eo.OsmRelationCheck"; 
+            name = OsmRelationCheck; 
+        }
+    ); 
     userInfo = {"_EntityModeler" = {reverseEngineered = Y; }; }; 
 }

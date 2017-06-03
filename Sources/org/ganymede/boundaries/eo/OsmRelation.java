@@ -22,6 +22,14 @@ public class OsmRelation extends _OsmRelation {
 		return str.toString();
 	}
 
+	public boolean isWay() {
+		return this.url().startsWith("way/");
+	}
+
+	public boolean isRelation() {
+		return this.url().startsWith("relation/");
+	}
+
 	public Long nextPk(EOEditingContext ec) {
 		@SuppressWarnings("unchecked")
 		NSArray<NSDictionary<String,Long>> results = EOUtilities.rawRowsForSQL(ec, "Boundaries", "select max(pk) as maxPk from osm_relations", new NSArray<String>("maxPk"));

@@ -12,5 +12,6 @@ public class Session extends ERXSession {
 	public Application application() {
 		return (Application)super.application();
 	}
-	
+
+	public boolean authenticated = false;
 }

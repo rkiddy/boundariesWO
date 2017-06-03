@@ -15,6 +15,19 @@ public class Main extends BaseComponent {
 		super(context);
 	}
 
+	public boolean authenticated() {
+		return (Boolean)session().valueForKey("authenticated");
+	}
+
+	public String pass;
+
+	public WOActionResults authenticate() {
+		if (pass.equals("none")) {
+			session().authenticated = true;
+		}
+		return this.context().page();
+	}
+
 	public OsmRelation relation;
 
 	@SuppressWarnings("unchecked")

@@ -21,23 +21,29 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public static final ERXKey<String> FIPS = new ERXKey<String>("fips");
   public static final ERXKey<String> NAME = new ERXKey<String>("name");
   public static final ERXKey<String> NOTE = new ERXKey<String>("note");
+  public static final ERXKey<String> OSM_ID = new ERXKey<String>("osmId");
+  public static final ERXKey<String> OSM_TYPE = new ERXKey<String>("osmType");
   public static final ERXKey<Long> PK = new ERXKey<Long>("pk");
   public static final ERXKey<String> PLACE = new ERXKey<String>("place");
   public static final ERXKey<Long> UPS = new ERXKey<Long>("ups");
   public static final ERXKey<String> URL = new ERXKey<String>("url");
 
   // Relationship Keys
+  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck> CHECKS = new ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck>("checks");
 
   // Attributes
   public static final String FIPS_KEY = FIPS.key();
   public static final String NAME_KEY = NAME.key();
   public static final String NOTE_KEY = NOTE.key();
+  public static final String OSM_ID_KEY = OSM_ID.key();
+  public static final String OSM_TYPE_KEY = OSM_TYPE.key();
   public static final String PK_KEY = PK.key();
   public static final String PLACE_KEY = PLACE.key();
   public static final String UPS_KEY = UPS.key();
   public static final String URL_KEY = URL.key();
 
   // Relationships
+  public static final String CHECKS_KEY = CHECKS.key();
 
   private static final Logger log = LoggerFactory.getLogger(_OsmRelation.class);
 
@@ -76,6 +82,24 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
     takeStoredValueForKey(value, _OsmRelation.NOTE_KEY);
   }
 
+  public String osmId() {
+    return (String) storedValueForKey(_OsmRelation.OSM_ID_KEY);
+  }
+
+  public void setOsmId(String value) {
+    log.debug( "updating osmId from {} to {}", osmId(), value);
+    takeStoredValueForKey(value, _OsmRelation.OSM_ID_KEY);
+  }
+
+  public String osmType() {
+    return (String) storedValueForKey(_OsmRelation.OSM_TYPE_KEY);
+  }
+
+  public void setOsmType(String value) {
+    log.debug( "updating osmType from {} to {}", osmType(), value);
+    takeStoredValueForKey(value, _OsmRelation.OSM_TYPE_KEY);
+  }
+
   public Long pk() {
     return (Long) storedValueForKey(_OsmRelation.PK_KEY);
   }
@@ -110,6 +134,91 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public void setUrl(String value) {
     log.debug( "updating url from {} to {}", url(), value);
     takeStoredValueForKey(value, _OsmRelation.URL_KEY);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> checks() {
+    return (NSArray<org.ganymede.boundaries.eo.OsmRelationCheck>)storedValueForKey(_OsmRelation.CHECKS_KEY);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> checks(EOQualifier qualifier) {
+    return checks(qualifier, null, false);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> checks(EOQualifier qualifier, boolean fetch) {
+    return checks(qualifier, null, fetch);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> checks(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings, boolean fetch) {
+    NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> results;
+    if (fetch) {
+      EOQualifier fullQualifier;
+      EOQualifier inverseQualifier = ERXQ.equals(org.ganymede.boundaries.eo.OsmRelationCheck.RELATION_KEY, this);
+
+      if (qualifier == null) {
+        fullQualifier = inverseQualifier;
+      }
+      else {
+        fullQualifier = ERXQ.and(qualifier, inverseQualifier);
+      }
+
+      results = org.ganymede.boundaries.eo.OsmRelationCheck.fetchOsmRelationChecks(editingContext(), fullQualifier, sortOrderings);
+    }
+    else {
+      results = checks();
+      if (qualifier != null) {
+        results = (NSArray<org.ganymede.boundaries.eo.OsmRelationCheck>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
+      }
+      if (sortOrderings != null) {
+        results = (NSArray<org.ganymede.boundaries.eo.OsmRelationCheck>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
+      }
+    }
+    return results;
+  }
+
+  public void addToChecks(org.ganymede.boundaries.eo.OsmRelationCheck object) {
+    includeObjectIntoPropertyWithKey(object, _OsmRelation.CHECKS_KEY);
+  }
+
+  public void removeFromChecks(org.ganymede.boundaries.eo.OsmRelationCheck object) {
+    excludeObjectFromPropertyWithKey(object, _OsmRelation.CHECKS_KEY);
+  }
+
+  public void addToChecksRelationship(org.ganymede.boundaries.eo.OsmRelationCheck object) {
+    log.debug("adding {} to checks relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      addToChecks(object);
+    }
+    else {
+      addObjectToBothSidesOfRelationshipWithKey(object, _OsmRelation.CHECKS_KEY);
+    }
+  }
+
+  public void removeFromChecksRelationship(org.ganymede.boundaries.eo.OsmRelationCheck object) {
+    log.debug("removing {} from checks relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      removeFromChecks(object);
+    }
+    else {
+      removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.CHECKS_KEY);
+    }
+  }
+
+  public org.ganymede.boundaries.eo.OsmRelationCheck createChecksRelationship() {
+    EOEnterpriseObject eo = EOUtilities.createAndInsertInstance(editingContext(),  org.ganymede.boundaries.eo.OsmRelationCheck.ENTITY_NAME );
+    addObjectToBothSidesOfRelationshipWithKey(eo, _OsmRelation.CHECKS_KEY);
+    return (org.ganymede.boundaries.eo.OsmRelationCheck) eo;
+  }
+
+  public void deleteChecksRelationship(org.ganymede.boundaries.eo.OsmRelationCheck object) {
+    removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.CHECKS_KEY);
+    editingContext().deleteObject(object);
+  }
+
+  public void deleteAllChecksRelationships() {
+    Enumeration<org.ganymede.boundaries.eo.OsmRelationCheck> objects = checks().immutableClone().objectEnumerator();
+    while (objects.hasMoreElements()) {
+      deleteChecksRelationship(objects.nextElement());
+    }
   }
 
 

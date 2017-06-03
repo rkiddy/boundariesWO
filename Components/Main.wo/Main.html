@@ -9,66 +9,71 @@
   </head>
   <body>
     <h2 align = "center">OSM Relations</h2>
-    <div class = "container">
-      <wo:form>
-        <p align = "right">
-          <wo:link action = "$addOne">Add&nbsp;One</wo:link>
-          &nbsp;&nbsp;
-          <wo:submit value = "Save Changes" action = "$save" />
-        </p>
-        <table class = "table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Place</th>
-              <th>URL</th>
-              <th>Is&nbsp;Ok</th>
-              <th>Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            <wo:loop list = "$relations" item = "$relation">
+    <wo:not condition = "$authenticated">
+      <wo:form action = "$authenticate"> &nbsp;&nbsp;<wo:WOPasswordField value = "$pass" /> </wo:form>
+    </wo:not>
+    <wo:else>
+      <div class = "container">
+        <wo:form>
+          <p align = "right">
+            <wo:link action = "$addOne">Add&nbsp;One</wo:link>
+            &nbsp;&nbsp; 
+            <wo:submit value = "Save Changes" action = "$save" />
+          </p>
+          <table class = "table">
+            <thead>
               <tr>
-                <td>
-                  <wo:AjaxInPlace>
-                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.name" /></wo:ERXWOTemplate>
-                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.name" /></wo:ERXWOTemplate>
-                  </wo:AjaxInPlace>
-                </td>
-                <td>
-                  <wo:AjaxInPlace>
-                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.place" /></wo:ERXWOTemplate>
-                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.place" /></wo:ERXWOTemplate>
-                  </wo:AjaxInPlace>
-                </td>
-                <td>
-                  <wo:AjaxInPlace>
-                    <wo:ERXWOTemplate templateName = "view">
-                      <wo:link href = "$relation.fullUrl"><wo:str value = "$relation.url" /></wo:link>
-                    </wo:ERXWOTemplate>
-                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.url" /></wo:ERXWOTemplate>
-                  </wo:AjaxInPlace>
-                </td>
-                <td>
-                  <wo:AjaxInPlace>
-                    <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.ups" /></wo:ERXWOTemplate>
-                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.ups" /></wo:ERXWOTemplate>
-                  </wo:AjaxInPlace>
-                </td>
-                <td>
-                  <wo:AjaxInPlace>
-                    <wo:ERXWOTemplate templateName = "view">
-                      <wo:if condition = "$relation.note"><wo:str value = "$relation.note" /></wo:if>
-                      <wo:else>...</wo:else>
-                    </wo:ERXWOTemplate>
-                    <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.note" /></wo:ERXWOTemplate>
-                  </wo:AjaxInPlace>
-                </td>
+                <th>Name</th>
+                <th>Place</th>
+                <th>URL</th>
+                <th>Is&nbsp;Ok</th>
+                <th>Note</th>
               </tr>
-            </wo:loop>
-          </tbody>
-        </table>
-      </wo:form>
-    </div>
+            </thead>
+            <tbody>
+              <wo:loop list = "$relations" item = "$relation">
+                <tr>
+                  <td>
+                    <wo:AjaxInPlace>
+                      <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.name" /></wo:ERXWOTemplate>
+                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.name" /></wo:ERXWOTemplate>
+                    </wo:AjaxInPlace>
+                  </td>
+                  <td>
+                    <wo:AjaxInPlace>
+                      <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.place" /></wo:ERXWOTemplate>
+                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.place" /></wo:ERXWOTemplate>
+                    </wo:AjaxInPlace>
+                  </td>
+                  <td>
+                    <wo:AjaxInPlace>
+                      <wo:ERXWOTemplate templateName = "view">
+                        <wo:link href = "$relation.fullUrl"><wo:str value = "$relation.url" /></wo:link>
+                      </wo:ERXWOTemplate>
+                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.url" /></wo:ERXWOTemplate>
+                    </wo:AjaxInPlace>
+                  </td>
+                  <td>
+                    <wo:AjaxInPlace>
+                      <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.ups" /></wo:ERXWOTemplate>
+                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.ups" /></wo:ERXWOTemplate>
+                    </wo:AjaxInPlace>
+                  </td>
+                  <td>
+                    <wo:AjaxInPlace>
+                      <wo:ERXWOTemplate templateName = "view">
+                        <wo:if condition = "$relation.note"><wo:str value = "$relation.note" /></wo:if>
+                        <wo:else>...</wo:else>
+                      </wo:ERXWOTemplate>
+                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.note" /></wo:ERXWOTemplate>
+                    </wo:AjaxInPlace>
+                  </td>
+                </tr>
+              </wo:loop>
+            </tbody>
+          </table>
+        </wo:form>
+      </div>
+    </wo:else>
   </body>
 </html>
