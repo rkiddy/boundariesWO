@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>OSM Relations</title>
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity = "sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin = "anonymous" />
+    <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity = "sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin = "anonymous" />
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity = "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin = "anonymous">
+    </script>
+  </head>
+  <body>
+    <h2 align = "center">OSM Relation</h2>
+    <div class = "container">
+      <table class = "table">
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td><wo:str value = "$relation.name" /></td>
+          </tr>
+          <tr>
+            <td>OSM Id</td>
+            <td><wo:str value = "$relation.osmId" /></td>
+          </tr>
+          <tr>
+            <td>Place</td>
+            <td><wo:str value = "$relation.place" /></td>
+          </tr>
+          <tr>
+            <td>URL</td>
+            <td><wo:str value = "$relation.url" /></td>
+          </tr>
+          <tr>
+            <td>Checks</td>
+            <td>
+              <ul>
+                <wo:loop list = "$relation.checks" item = "$check">
+                  <li><wo:str value = "$check" /></li>
+                </wo:loop>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <wo:form>
+      <h3>Add a Relation Check</h3>
+        <table class = "table">
+          <tbody>
+            <tr>
+              <td>is Ok?</td>
+              <td><wo:checkbox checked = "$checkIsGood" /></td>
+            </tr>
+            <tr>
+            <td>&nbsp;</td>
+            <td><wo:submit action="$addCheck" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </wo:form>
+    </div>
+  </body>
+</html>
