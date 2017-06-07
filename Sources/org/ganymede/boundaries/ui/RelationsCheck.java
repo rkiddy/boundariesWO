@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.webobjects.appserver.WOContext;
+import com.webobjects.appserver.WOResponse;
 import com.webobjects.eoaccess.EOUtilities;
 import com.webobjects.eocontrol.EOEditingContext;
 import com.webobjects.foundation.NSArray;
@@ -36,26 +37,33 @@ public class RelationsCheck extends BaseComponent {
 	public OSMRelationData data = new OSMRelationData();
 
 	public OSMWayData foundWay;
-
 	public OSMNodeData foundNode;
-
 	public OSMWayConnection foundConnection;
 
 	private EOEditingContext ec;
 
 	public void awake() {
-
 		ec = new EOEditingContext();
 		ec.setDelegate(new ERXEditingContextDelegate());
+	}
+
+	public void appendToResponse(WOResponse aResponse, WOContext aContext) {
+
+		System.out.println("appendToResponse: ec: " + ec);
 
 		@SuppressWarnings("unchecked")
 		NSArray<OsmRelation> found = EOUtilities.objectsForEntityNamed(ec, OsmRelation.ENTITY_NAME);
 
 		for (OsmRelation oneFound : found) {
+
 			//System.out.println("found relation: " + oneFound.url());
+
 			if ("relation".equals(oneFound.osmType())) {
 				readRelation(oneFound);
-				checkRelation(oneFound);
+				checkRelation(oneFound.name());
+
+				// For now, only check one relation.
+				//
 				return;
 			}
 		}
@@ -63,7 +71,50 @@ public class RelationsCheck extends BaseComponent {
 
 	public NSMutableArray<OSMWayConnection> connections = new NSMutableArray<>();
 
-	private void checkRelation(OsmRelation relation) {
+	private void checkRelation(String relationName) {
+
+		System.out.println("checkRelation: ec: " + ec);
+
+		boolean broken = true;
+
+		data.isConnected = connectionsAllConnect();
+
+		NSTimestamp now = new NSTimestamp();
+
+		OsmRelation relation = OsmRelation.fetchOsmRelation(ec, OsmRelation.NAME.is(relationName));
+
+		System.out.println("found relation: " + relation);
+
+		if (broken) {
+
+			OsmRelationCheck.createOsmRelationCheck(ec, data.isConnected ? 1L : 0L, now, now, relation);
+
+		} else {
+
+			OsmRelationCheck lastCheck = null;
+
+			NSArray<OsmRelationCheck> checks = OsmRelationCheck.fetchOsmRelationChecks(ec, OsmRelationCheck.RELATION.is(relation), null);
+
+			for (OsmRelationCheck check : checks) {
+				if (lastCheck == null) {
+					lastCheck = check;
+				}
+				if (lastCheck.startCondition().compare(check.startCondition()) < 0) {
+					lastCheck = check;
+				}
+			}
+
+			if (lastCheck == null || (lastCheck.checkResult() == 1L) != data.isConnected) {
+				OsmRelationCheck.createOsmRelationCheck(ec, data.isConnected ? 1L : 0L, now, now, relation);
+			} else {
+				lastCheck.setEndCondition(now);
+			}
+		}
+
+		ec.saveChanges();
+	}
+
+	private boolean connectionsAllConnect() {
 
 		NSMutableDictionary<String,OSMWayConnection> found = new NSMutableDictionary<>();
 
@@ -105,13 +156,7 @@ public class RelationsCheck extends BaseComponent {
 			}
 		}
 
-		data.isConnected = checkables.isEmpty();
-
-		NSTimestamp now = new NSTimestamp();
-
-		OsmRelationCheck.createOsmRelationCheck(ec, (data.isConnected) ? 1L : 0L, now, now, relation);
-
-		ec.saveChanges();
+		return checkables.isEmpty();
 	}
 
 	private void readRelation(OsmRelation rel) {
@@ -200,7 +245,6 @@ public class RelationsCheck extends BaseComponent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public String valueOfAttributeWithName(Attributes attributes, String name) {
