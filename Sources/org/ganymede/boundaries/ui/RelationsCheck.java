@@ -24,14 +24,19 @@ import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableDictionary;
 import com.webobjects.foundation.NSTimestamp;
 
+import er.extensions.components.ERXComponent;
 import er.extensions.eof.ERXEditingContextDelegate;
 
-public class RelationsCheck extends BaseComponent {
+public class RelationsCheck extends ERXComponent {
 
 	private static final long serialVersionUID = 8912066359227031726L;
 
+	private EOEditingContext ec;
+
 	public RelationsCheck(WOContext context) {
 		super(context);
+		ec = new EOEditingContext();
+		ec.setDelegate(new ERXEditingContextDelegate());
 	}
 
 	public OSMRelationData data = new OSMRelationData();
@@ -39,13 +44,6 @@ public class RelationsCheck extends BaseComponent {
 	public OSMWayData foundWay;
 	public OSMNodeData foundNode;
 	public OSMWayConnection foundConnection;
-
-	private EOEditingContext ec;
-
-	public void awake() {
-		ec = new EOEditingContext();
-		ec.setDelegate(new ERXEditingContextDelegate());
-	}
 
 	public void appendToResponse(WOResponse aResponse, WOContext aContext) {
 
