@@ -13,38 +13,38 @@
       <h3><wo:str value = "$message" /></h3>
     </wo:if>
     <wo:form>
-    <table class = "table">
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td><wo:WOTextField value = "$relationName" size = "40" /></td>
-        </tr>
-        <tr>
-          <td>Place</td>
-          <td><wo:WOTextField value = "$relationPlace" /></td>
-        </tr>
-        <tr>
-          <td>URL</td>
-          <td><wo:WOTextField value = "$relationUrl" size = "80" /></td>
-        </tr>
-        <tr>
-          <td>Is&nbsp;Ok</td>
-          <td><wo:WOTextField value = "$relationUps" size = "5" /></td>
-        </tr>
-        <tr>
-          <td>Note</td>
-          <td><wo:WOText value = "$relationNote" cols = "80" rows = "3" /></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>
-            <wo:submit action = "$save" />
-            &nbsp;&nbsp; 
-            <wo:link action = "$cancelForm">Cancel</wo:link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <table class = "table">
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td><wo:WOTextField value = "$relationName" size = "40" /></td>
+          </tr>
+          <tr>
+            <td>Place</td>
+            <td><wo:WOTextField value = "$relationPlace" /></td>
+          </tr>
+          <tr>
+            <td>URL</td>
+            <td><wo:WOTextField value = "$relationUrl" size = "80" /></td>
+          </tr>
+          <tr>
+            <td>Is&nbsp;Ok</td>
+            <td><wo:WOTextField value = "$relationUps" size = "5" /></td>
+          </tr>
+          <tr>
+            <td>Note</td>
+            <td><wo:WOText value = "$relationNote" cols = "80" rows = "3" /></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <wo:submit action = "$save" />
+              &nbsp;&nbsp; 
+              <wo:link action = "$cancelForm">Cancel</wo:link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </wo:form>
   </body>
 </html>
