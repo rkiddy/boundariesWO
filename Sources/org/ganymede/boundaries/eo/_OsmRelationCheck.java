@@ -8,6 +8,7 @@ import java.math.*;
 import java.util.*;
 
 import er.extensions.eof.*;
+import er.extensions.eof.ERXKey.Type;
 import er.extensions.foundation.*;
 
 import org.slf4j.Logger;
@@ -18,17 +19,17 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
   public static final String ENTITY_NAME = "OsmRelationCheck";
 
   // Attribute Keys
-  public static final ERXKey<Long> CHECK_RESULT = new ERXKey<Long>("checkResult");
-  public static final ERXKey<NSTimestamp> END_CONDITION = new ERXKey<NSTimestamp>("endCondition");
-  public static final ERXKey<NSTimestamp> START_CONDITION = new ERXKey<NSTimestamp>("startCondition");
+  public static final ERXKey<NSTimestamp> CHECKED_TIME = new ERXKey<NSTimestamp>("checkedTime", Type.Attribute);
+  public static final ERXKey<Long> CHECK_RESULT = new ERXKey<Long>("checkResult", Type.Attribute);
+  public static final ERXKey<String> OSM_UPDATE_DATE = new ERXKey<String>("osmUpdateDate", Type.Attribute);
 
   // Relationship Keys
-  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelation> RELATION = new ERXKey<org.ganymede.boundaries.eo.OsmRelation>("relation");
+  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelation> RELATION = new ERXKey<org.ganymede.boundaries.eo.OsmRelation>("relation", Type.ToOneRelationship);
 
   // Attributes
+  public static final String CHECKED_TIME_KEY = CHECKED_TIME.key();
   public static final String CHECK_RESULT_KEY = CHECK_RESULT.key();
-  public static final String END_CONDITION_KEY = END_CONDITION.key();
-  public static final String START_CONDITION_KEY = START_CONDITION.key();
+  public static final String OSM_UPDATE_DATE_KEY = OSM_UPDATE_DATE.key();
 
   // Relationships
   public static final String RELATION_KEY = RELATION.key();
@@ -43,6 +44,15 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
     return localInstance;
   }
 
+  public NSTimestamp checkedTime() {
+    return (NSTimestamp) storedValueForKey(_OsmRelationCheck.CHECKED_TIME_KEY);
+  }
+
+  public void setCheckedTime(NSTimestamp value) {
+    log.debug( "updating checkedTime from {} to {}", checkedTime(), value);
+    takeStoredValueForKey(value, _OsmRelationCheck.CHECKED_TIME_KEY);
+  }
+
   public Long checkResult() {
     return (Long) storedValueForKey(_OsmRelationCheck.CHECK_RESULT_KEY);
   }
@@ -52,22 +62,13 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
     takeStoredValueForKey(value, _OsmRelationCheck.CHECK_RESULT_KEY);
   }
 
-  public NSTimestamp endCondition() {
-    return (NSTimestamp) storedValueForKey(_OsmRelationCheck.END_CONDITION_KEY);
+  public String osmUpdateDate() {
+    return (String) storedValueForKey(_OsmRelationCheck.OSM_UPDATE_DATE_KEY);
   }
 
-  public void setEndCondition(NSTimestamp value) {
-    log.debug( "updating endCondition from {} to {}", endCondition(), value);
-    takeStoredValueForKey(value, _OsmRelationCheck.END_CONDITION_KEY);
-  }
-
-  public NSTimestamp startCondition() {
-    return (NSTimestamp) storedValueForKey(_OsmRelationCheck.START_CONDITION_KEY);
-  }
-
-  public void setStartCondition(NSTimestamp value) {
-    log.debug( "updating startCondition from {} to {}", startCondition(), value);
-    takeStoredValueForKey(value, _OsmRelationCheck.START_CONDITION_KEY);
+  public void setOsmUpdateDate(String value) {
+    log.debug( "updating osmUpdateDate from {} to {}", osmUpdateDate(), value);
+    takeStoredValueForKey(value, _OsmRelationCheck.OSM_UPDATE_DATE_KEY);
   }
 
   public org.ganymede.boundaries.eo.OsmRelation relation() {
@@ -94,14 +95,12 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
   }
 
 
-  public static OsmRelationCheck createOsmRelationCheck(EOEditingContext editingContext, Long checkResult
-, NSTimestamp endCondition
-, NSTimestamp startCondition
+  public static OsmRelationCheck createOsmRelationCheck(EOEditingContext editingContext, NSTimestamp checkedTime
+, Long checkResult
 , org.ganymede.boundaries.eo.OsmRelation relation) {
     OsmRelationCheck eo = (OsmRelationCheck) EOUtilities.createAndInsertInstance(editingContext, _OsmRelationCheck.ENTITY_NAME);
+    eo.setCheckedTime(checkedTime);
     eo.setCheckResult(checkResult);
-    eo.setEndCondition(endCondition);
-    eo.setStartCondition(startCondition);
     eo.setRelationRelationship(relation);
     return eo;
   }

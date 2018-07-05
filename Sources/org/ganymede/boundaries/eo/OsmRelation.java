@@ -30,6 +30,16 @@ public class OsmRelation extends _OsmRelation {
 		return this.url().startsWith("relation/");
 	}
 
+	public OsmRelationCheck lastCheck() {
+		OsmRelationCheck lastCheck = null;
+		for (OsmRelationCheck check : this.checks()) {
+			if (lastCheck == null || lastCheck.checkedTime().compare(check.checkedTime()) < 0) {
+				lastCheck = check;
+			}
+		}
+		return lastCheck;
+	}
+
 	public Long nextPk(EOEditingContext ec) {
 		@SuppressWarnings("unchecked")
 		NSArray<NSDictionary<String,Long>> results = EOUtilities.rawRowsForSQL(ec, "Boundaries", "select max(pk) as maxPk from osm_relations", new NSArray<String>("maxPk"));

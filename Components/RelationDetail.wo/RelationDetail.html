@@ -14,19 +14,39 @@
         <tbody>
           <tr>
             <td>Name</td>
-            <td><wo:str value = "$relation.name" /></td>
+            <td>
+				<wo:AjaxInPlace>
+					<wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.name" /></wo:ERXWOTemplate>
+					<wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.name" /></wo:ERXWOTemplate>
+				</wo:AjaxInPlace>
+            </td>
           </tr>
           <tr>
             <td>OSM Id</td>
-            <td><wo:str value = "$relation.osmId" /></td>
+            <td>
+				<wo:AjaxInPlace>
+					<wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.osmId" /></wo:ERXWOTemplate>
+					<wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.osmId" /></wo:ERXWOTemplate>
+				</wo:AjaxInPlace>
+            </td>
           </tr>
           <tr>
             <td>Place</td>
-            <td><wo:str value = "$relation.place" /></td>
+            <td>
+				<wo:AjaxInPlace>
+					<wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.place" /></wo:ERXWOTemplate>
+					<wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.place" /></wo:ERXWOTemplate>
+				</wo:AjaxInPlace>
+            </td>
           </tr>
           <tr>
             <td>URL</td>
-            <td><wo:str value = "$relation.url" /></td>
+            <td>
+				<wo:AjaxInPlace>
+					<wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.url" /></wo:ERXWOTemplate>
+					<wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.url" /></wo:ERXWOTemplate>
+				</wo:AjaxInPlace>
+            </td>
           </tr>
           <tr>
             <td>Checks</td>

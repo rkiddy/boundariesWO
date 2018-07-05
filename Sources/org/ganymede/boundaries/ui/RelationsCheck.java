@@ -73,8 +73,6 @@ public class RelationsCheck extends ERXComponent {
 
 		System.out.println("checkRelation: ec: " + ec);
 
-		boolean broken = true;
-
 		data.isConnected = connectionsAllConnect();
 
 		NSTimestamp now = new NSTimestamp();
@@ -83,31 +81,7 @@ public class RelationsCheck extends ERXComponent {
 
 		System.out.println("found relation: " + relation);
 
-		if (broken) {
-
-			OsmRelationCheck.createOsmRelationCheck(ec, data.isConnected ? 1L : 0L, now, now, relation);
-
-		} else {
-
-			OsmRelationCheck lastCheck = null;
-
-			NSArray<OsmRelationCheck> checks = OsmRelationCheck.fetchOsmRelationChecks(ec, OsmRelationCheck.RELATION.is(relation), null);
-
-			for (OsmRelationCheck check : checks) {
-				if (lastCheck == null) {
-					lastCheck = check;
-				}
-				if (lastCheck.startCondition().compare(check.startCondition()) < 0) {
-					lastCheck = check;
-				}
-			}
-
-			if (lastCheck == null || (lastCheck.checkResult() == 1L) != data.isConnected) {
-				OsmRelationCheck.createOsmRelationCheck(ec, data.isConnected ? 1L : 0L, now, now, relation);
-			} else {
-				lastCheck.setEndCondition(now);
-			}
-		}
+		OsmRelationCheck.createOsmRelationCheck(ec, now, data.isConnected ? 1L : 0L, relation);
 
 		ec.saveChanges();
 	}

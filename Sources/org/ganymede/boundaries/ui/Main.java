@@ -1,11 +1,16 @@
 package org.ganymede.boundaries.ui;
 
+import org.ganymede.boundaries.Session;
 import org.ganymede.boundaries.eo.OsmRelation;
+import org.ganymede.boundaries.eo.OsmRelationCheck;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.eoaccess.EOUtilities;
+import com.webobjects.eocontrol.EOSortOrdering;
 import com.webobjects.foundation.NSArray;
+import com.webobjects.foundation.NSMutableArray;
+import com.webobjects.foundation.NSTimestamp;
 
 public class Main extends BaseComponent {
 
@@ -32,7 +37,61 @@ public class Main extends BaseComponent {
 
 	@SuppressWarnings("unchecked")
 	public NSArray<OsmRelation> relations() {
-		return EOUtilities.objectsForEntityNamed(ec(), OsmRelation.ENTITY_NAME);
+		NSArray<OsmRelation> relations = EOUtilities.objectsForEntityNamed(ec(), OsmRelation.ENTITY_NAME);
+		if (session().mainListFilter.equals(Session.MAIN_LIST_FILTER_SHOW_GOOD)) {
+			NSMutableArray<OsmRelation> nextRelations = new NSMutableArray<>();
+			for (OsmRelation relation : relations) {
+				OsmRelationCheck check = relation.lastCheck();
+				if (check != null && check.checkResult().intValue() == 1) {
+					nextRelations.add(relation);
+				}
+			}
+			relations = nextRelations;
+		}
+		if (session().mainListFilter.equals(Session.MAIN_LIST_FILTER_SHOW_BAD)) {
+			NSMutableArray<OsmRelation> nextRelations = new NSMutableArray<>();
+			for (OsmRelation relation : relations) {
+				OsmRelationCheck check = relation.lastCheck();
+				if (check == null || check.checkResult().intValue() == 0) {
+					nextRelations.add(relation);
+				}
+			}
+			relations = nextRelations;
+		}
+		return EOSortOrdering.sortedArrayUsingKeyOrderArray(relations, session().mainListOrderings);
+	}
+
+	public WOActionResults showAllRelations() {
+		session().mainListFilter = Session.MAIN_LIST_FILTER_SHOW_ALL;
+		return this.context().page();
+	}
+
+	public WOActionResults showOnlyGoodRelations() {
+		session().mainListFilter = Session.MAIN_LIST_FILTER_SHOW_GOOD;
+		return this.context().page();
+	}
+
+	public WOActionResults showOnlyBadRelations() {
+		session().mainListFilter = Session.MAIN_LIST_FILTER_SHOW_BAD;
+		return this.context().page();
+	}
+
+	public WOActionResults sortByName() {
+		if (session().mainListOrderings.equals(OsmRelation.NAME.ascs())) {
+			session().mainListOrderings = OsmRelation.NAME.descs();
+		} else {
+			session().mainListOrderings = OsmRelation.NAME.ascs();
+		}
+		return this.context().page();
+	}
+
+	public WOActionResults sortByPlace() {
+		if (session().mainListOrderings.equals(OsmRelation.PLACE.ascs())) {
+			session().mainListOrderings = OsmRelation.PLACE.descs();
+		} else {
+			session().mainListOrderings = OsmRelation.PLACE.ascs();
+		}
+		return this.context().page();
 	}
 
 	public WOActionResults save() {
@@ -46,5 +105,17 @@ public class Main extends BaseComponent {
 
 	public WOActionResults addOne() {
 		return pageWithName(AddRelationPage.class);
+	}
+
+	public WOActionResults checkIsGood() {
+		OsmRelationCheck.createOsmRelationCheck(ec(), new NSTimestamp(), 1L, relation);
+		ec().saveChanges();
+		return this.context().page();
+	}
+
+	public WOActionResults checkIsBad() {
+		OsmRelationCheck.createOsmRelationCheck(ec(), new NSTimestamp(), 0L, relation);
+		ec().saveChanges();
+		return this.context().page();
 	}
 }

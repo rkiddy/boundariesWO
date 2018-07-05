@@ -1,56 +1,47 @@
 {
     attributes = (
-        {allowsNull = Y; columnName = fips; name = fips; prototypeName = longText; }, 
-        {allowsNull = Y; columnName = name; name = name; prototypeName = varchar255; }, 
-        {allowsNull = Y; columnName = note; name = note; prototypeName = varchar255; }, 
+        {allowsNull = Y; columnName = fips; name = fips; prototypeName = longText; },
+        {allowsNull = Y; columnName = name; name = name; prototypeName = varchar255; },
+        {allowsNull = Y; columnName = note; name = note; prototypeName = varchar255; },
         {
-            allowsNull = Y; 
-            columnName = "osm_id"; 
-            name = osmId; 
-            prototypeName = varchar10; 
-            width = 12; 
-        }, 
+            allowsNull = Y;
+            columnName = "osm_id";
+            name = osmId;
+            prototypeName = varchar10;
+            width = 12;
+        },
         {
-            allowsNull = Y; 
-            columnName = "osm_type"; 
-            name = osmType; 
-            prototypeName = varchar10; 
-            width = 12; 
-        }, 
+            allowsNull = Y;
+            columnName = "osm_type";
+            name = osmType;
+            prototypeName = varchar10;
+            width = 12;
+        },
         {
-            className = "java.lang.Number"; 
-            columnName = pk; 
-            externalType = INT; 
-            name = pk; 
-            precision = 10; 
-            valueType = l; 
-        }, 
-        {allowsNull = Y; columnName = place; name = place; prototypeName = longText; }, 
-        {
-            allowsNull = Y; 
-            className = "java.lang.Number"; 
-            columnName = ups; 
-            externalType = INT; 
-            name = ups; 
-            precision = 10; 
-            valueType = l; 
-        }, 
+            className = "java.lang.Number";
+            columnName = pk;
+            externalType = INT;
+            name = pk;
+            precision = 10;
+            valueType = l;
+        },
+        {allowsNull = Y; columnName = place; name = place; prototypeName = longText; },
         {allowsNull = Y; columnName = url; name = url; prototypeName = varchar255; }
-    ); 
-    attributesUsedForLocking = (pk); 
-    className = "org.ganymede.boundaries.eo.OsmRelation"; 
-    classProperties = (checks, fips, name, note, osmId, osmType, pk, place, ups, url); 
-    externalName = "osm_relations"; 
-    fetchSpecificationDictionary = {}; 
-    name = OsmRelation; 
-    primaryKeyAttributes = (pk); 
+    );
+    attributesUsedForLocking = (pk);
+    className = "org.ganymede.boundaries.eo.OsmRelation";
+    classProperties = (checks, fips, name, note, osmId, osmType, pk, place, url);
+    externalName = "osm_relations";
+    fetchSpecificationDictionary = {};
+    name = OsmRelation;
+    primaryKeyAttributes = (pk);
     relationships = (
         {
-            destination = OsmRelationCheck; 
-            isToMany = Y; 
-            joinSemantic = EOInnerJoin; 
-            joins = ({destinationAttribute = relationPk; sourceAttribute = pk; }); 
-            name = checks; 
+            destination = OsmRelationCheck;
+            isToMany = Y;
+            joinSemantic = EOInnerJoin;
+            joins = ({destinationAttribute = relationPk; sourceAttribute = pk; });
+            name = checks;
         }
-    ); 
+    );
 }

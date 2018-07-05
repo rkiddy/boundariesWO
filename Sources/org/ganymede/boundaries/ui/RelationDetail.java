@@ -24,7 +24,7 @@ public class RelationDetail extends BaseComponent {
 
 		NSTimestamp now  = new NSTimestamp();
 
-		OsmRelationCheck.createOsmRelationCheck(ec(), checkIsGood ? 1L : 0L, now, now, relation);
+		OsmRelationCheck.createOsmRelationCheck(ec(), now, checkIsGood ? 1L : 0L, relation);
 
 		ec().saveChanges();
 

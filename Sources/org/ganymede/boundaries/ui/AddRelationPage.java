@@ -39,7 +39,6 @@ public class AddRelationPage extends BaseComponent {
 			nextRelation.setName(relationName);
 			nextRelation.setPlace(relationPlace);
 			nextRelation.setUrl(relationUrl);
-			nextRelation.setUps((relationUps != null) ? new Long(relationUps) : 1L);
 			if (relationNote != null) {
 				nextRelation.setNote(relationNote);
 			}

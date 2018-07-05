@@ -16,17 +16,19 @@
       <div class = "container">
         <wo:form>
           <p align = "right">
-            <wo:link action = "$addOne">Add&nbsp;One</wo:link>
-            &nbsp;&nbsp; 
-            <wo:submit value = "Save Changes" action = "$save" />
+            <wo:link action = "$addOne">Add&nbsp;Relation&nbsp;or&nbsp;Way</wo:link>
+            <br/>
+            <wo:link action = "$showAllRelations">Show All</wo:link> or
+            <wo:link action = "$showOnlyGoodRelations">Show Good</wo:link> or
+            <wo:link action = "$showOnlyBadRelations">Show Bad</wo:link>
           </p>
           <table class = "table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Place</th>
+                <th><wo:link action="$sortByName">Name</wo:link></th>
+                <th><wo:link action="$sortByPlace">Place</wo:link></th>
                 <th>URL</th>
-                <th>Is&nbsp;Ok</th>
+                <th>Checked</th>
                 <th>Note</th>
               </tr>
             </thead>
@@ -53,12 +55,22 @@
                       <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.url" /></wo:ERXWOTemplate>
                     </wo:AjaxInPlace>
                   </td>
-                  <td>
-                    <wo:AjaxInPlace>
-                      <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.ups" /></wo:ERXWOTemplate>
-                      <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.ups" /></wo:ERXWOTemplate>
-                    </wo:AjaxInPlace>
-                  </td>
+                  <wo:if condition="$relation.lastCheck.checkResult">
+                      <td>
+                        <wo:AjaxInPlace>
+                          <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.lastCheck.checkedTime" dateformat="%Y-%m-%d" /></wo:ERXWOTemplate>
+                          <wo:ERXWOTemplate templateName = "edit">N/A</wo:ERXWOTemplate>
+                        </wo:AjaxInPlace>
+                      </td>
+                  </wo:if>
+                  <wo:else>
+                      <td bgcolor="red">
+                        <wo:AjaxInPlace>
+                          <wo:ERXWOTemplate templateName = "view"><wo:str value = "$relation.lastCheck.checkedTime" dateformat="%Y-%m-%d" /></wo:ERXWOTemplate>
+                          <wo:ERXWOTemplate templateName = "edit">N/A</wo:ERXWOTemplate>
+                        </wo:AjaxInPlace>
+                      </td>
+                  </wo:else>
                   <td>
                     <wo:AjaxInPlace>
                       <wo:ERXWOTemplate templateName = "view">
@@ -68,7 +80,9 @@
                       <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.note" /></wo:ERXWOTemplate>
                     </wo:AjaxInPlace>
                   </td>
-                  <td><wo:ERXDataHyperlink pageName="RelationDetail" relation="$relation">Edit</wo:ERXDataHyperlink></td>
+                  <td>
+                      <wo:ERXDataHyperlink pageName="RelationDetail" relation="$relation">\u0394</wo:ERXDataHyperlink>/<wo:link action="$checkIsGood">+</wo:link>/<wo:link action="$checkIsBad">X</wo:link>
+                  </td>
                 </tr>
               </wo:loop>
             </tbody>

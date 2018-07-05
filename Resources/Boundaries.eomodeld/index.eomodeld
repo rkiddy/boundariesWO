@@ -3,7 +3,7 @@
     adaptorName = JDBC; 
     connectionDictionary = {
         URL = "jdbc:mysql://localhost/openstreetmap"; 
-        password = notapassword; 
+        password = alexna11; 
         username = ray; 
     }; 
     entities = (

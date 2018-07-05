@@ -8,6 +8,7 @@ import java.math.*;
 import java.util.*;
 
 import er.extensions.eof.*;
+import er.extensions.eof.ERXKey.Type;
 import er.extensions.foundation.*;
 
 import org.slf4j.Logger;
@@ -18,18 +19,17 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public static final String ENTITY_NAME = "OsmRelation";
 
   // Attribute Keys
-  public static final ERXKey<String> FIPS = new ERXKey<String>("fips");
-  public static final ERXKey<String> NAME = new ERXKey<String>("name");
-  public static final ERXKey<String> NOTE = new ERXKey<String>("note");
-  public static final ERXKey<String> OSM_ID = new ERXKey<String>("osmId");
-  public static final ERXKey<String> OSM_TYPE = new ERXKey<String>("osmType");
-  public static final ERXKey<Long> PK = new ERXKey<Long>("pk");
-  public static final ERXKey<String> PLACE = new ERXKey<String>("place");
-  public static final ERXKey<Long> UPS = new ERXKey<Long>("ups");
-  public static final ERXKey<String> URL = new ERXKey<String>("url");
+  public static final ERXKey<String> FIPS = new ERXKey<String>("fips", Type.Attribute);
+  public static final ERXKey<String> NAME = new ERXKey<String>("name", Type.Attribute);
+  public static final ERXKey<String> NOTE = new ERXKey<String>("note", Type.Attribute);
+  public static final ERXKey<String> OSM_ID = new ERXKey<String>("osmId", Type.Attribute);
+  public static final ERXKey<String> OSM_TYPE = new ERXKey<String>("osmType", Type.Attribute);
+  public static final ERXKey<Long> PK = new ERXKey<Long>("pk", Type.Attribute);
+  public static final ERXKey<String> PLACE = new ERXKey<String>("place", Type.Attribute);
+  public static final ERXKey<String> URL = new ERXKey<String>("url", Type.Attribute);
 
   // Relationship Keys
-  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck> CHECKS = new ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck>("checks");
+  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck> CHECKS = new ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck>("checks", Type.ToManyRelationship);
 
   // Attributes
   public static final String FIPS_KEY = FIPS.key();
@@ -39,7 +39,6 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public static final String OSM_TYPE_KEY = OSM_TYPE.key();
   public static final String PK_KEY = PK.key();
   public static final String PLACE_KEY = PLACE.key();
-  public static final String UPS_KEY = UPS.key();
   public static final String URL_KEY = URL.key();
 
   // Relationships
@@ -116,15 +115,6 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public void setPlace(String value) {
     log.debug( "updating place from {} to {}", place(), value);
     takeStoredValueForKey(value, _OsmRelation.PLACE_KEY);
-  }
-
-  public Long ups() {
-    return (Long) storedValueForKey(_OsmRelation.UPS_KEY);
-  }
-
-  public void setUps(Long value) {
-    log.debug( "updating ups from {} to {}", ups(), value);
-    takeStoredValueForKey(value, _OsmRelation.UPS_KEY);
   }
 
   public String url() {
