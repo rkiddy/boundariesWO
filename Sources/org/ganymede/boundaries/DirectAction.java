@@ -1,7 +1,6 @@
 package org.ganymede.boundaries;
 
 import org.ganymede.boundaries.ui.Main;
-import org.ganymede.boundaries.ui.RelationsCheck;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOApplication;
@@ -18,10 +17,6 @@ public class DirectAction extends ERXDirectAction {
 	@Override
 	public WOActionResults defaultAction() {
 		return pageWithName(Main.class);
-	}
-
-	public WOActionResults checkRelationsAction() {
-		return pageWithName(RelationsCheck.class);
 	}
 
 	public Application application() {
