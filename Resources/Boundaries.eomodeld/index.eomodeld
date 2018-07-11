@@ -1,17 +1,22 @@
 {
-    EOModelVersion = "2.1"; 
-    adaptorName = JDBC; 
+    EOModelVersion = "2.1";
+    adaptorName = JDBC;
     connectionDictionary = {
-        URL = "jdbc:mysql://localhost/openstreetmap"; 
-        password = alexna11; 
-        username = ray; 
-    }; 
+        URL = "jdbc:mysql://localhost/openstreetmap";
+        password = alexna11;
+        username = ray;
+    };
     entities = (
-        {className = "org.ganymede.boundaries.eo.OsmRelation"; name = OsmRelation; }, 
+        {className = "org.ganymede.boundaries.eo.OsmRelation"; name = OsmRelation; },
         {
-            className = "org.ganymede.boundaries.eo.OsmRelationCheck"; 
-            name = OsmRelationCheck; 
-        }
-    ); 
-    userInfo = {"_EntityModeler" = {reverseEngineered = Y; }; }; 
+            className = "org.ganymede.boundaries.eo.OsmRelationCheck";
+            name = OsmRelationCheck;
+        },
+        {
+            className = "org.ganymede.boundaries.eo.OsmRelationSet";
+            name = OsmRelationSet;
+        },
+        {className = "er.extensions.eof.ERXGenericRecord"; name = OsmRelationSetJoin; }
+    );
+    userInfo = {"_EntityModeler" = {reverseEngineered = Y; }; };
 }

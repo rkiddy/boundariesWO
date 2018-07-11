@@ -25,12 +25,22 @@
             precision = 10;
             valueType = l;
         },
-        {allowsNull = Y; columnName = place; name = place; prototypeName = longText; },
-        {allowsNull = Y; columnName = url; name = url; prototypeName = varchar255; }
+        {allowsNull = Y; columnName = place; name = place; prototypeName = longText; }
     );
     attributesUsedForLocking = (pk);
     className = "org.ganymede.boundaries.eo.OsmRelation";
-    classProperties = (checks, fips, name, note, osmId, osmType, pk, place, url);
+    classProperties = (
+        checks,
+        fips,
+        name,
+        note,
+        osmId,
+        osmType,
+        pk,
+        place,
+        relationSetJoins,
+        relationSets
+    );
     externalName = "osm_relations";
     fetchSpecificationDictionary = {};
     name = OsmRelation;
@@ -42,6 +52,16 @@
             joinSemantic = EOInnerJoin;
             joins = ({destinationAttribute = relationPk; sourceAttribute = pk; });
             name = checks;
-        }
+        },
+        {
+            destination = OsmRelationSetJoin;
+            isToMany = Y;
+            joinSemantic = EOInnerJoin;
+            joins = ({destinationAttribute = relationPk; sourceAttribute = pk; });
+            name = relationSetJoins;
+            ownsDestination = Y;
+            propagatesPrimaryKey = Y;
+        },
+        {definition = "relationSetJoins.relationSet"; name = relationSets; }
     );
 }

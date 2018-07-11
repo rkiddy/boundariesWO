@@ -1,0 +1,45 @@
+{
+    attributes = (
+        {
+            className = "java.lang.Number"; 
+            columnName = "relation_pk"; 
+            externalType = INT; 
+            name = relationPk; 
+            precision = 10; 
+            valueType = l; 
+        }, 
+        {
+            className = "java.lang.Number"; 
+            columnName = "set_pk"; 
+            externalType = INT; 
+            name = setPk; 
+            precision = 10; 
+            valueType = l; 
+        }
+    ); 
+    attributesUsedForLocking = (relationPk, setPk); 
+    className = "er.extensions.eof.ERXGenericRecord"; 
+    classProperties = (relation, relationSet); 
+    externalName = "osm_relation_set_joins"; 
+    fetchSpecificationDictionary = {}; 
+    name = OsmRelationSetJoin; 
+    primaryKeyAttributes = (relationPk, setPk); 
+    relationships = (
+        {
+            destination = OsmRelation; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = pk; sourceAttribute = relationPk; }); 
+            name = relation; 
+        }, 
+        {
+            destination = OsmRelationSet; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = pk; sourceAttribute = setPk; }); 
+            name = relationSet; 
+        }
+    ); 
+}

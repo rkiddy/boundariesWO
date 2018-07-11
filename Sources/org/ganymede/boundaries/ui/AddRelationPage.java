@@ -1,5 +1,6 @@
 package org.ganymede.boundaries.ui;
 
+import org.apache.axis.utils.StringUtils;
 import org.ganymede.boundaries.eo.OsmRelation;
 
 import com.webobjects.appserver.WOActionResults;
@@ -33,17 +34,25 @@ public class AddRelationPage extends BaseComponent {
 	}
 
 	public WOActionResults save() {
+
 		if (relationName != null && relationPlace != null && relationUrl != null) {
 			nextRelation = OsmRelation.createOsmRelation(ec(), 0L);
 			nextRelation.setPk(nextRelation.nextPk(ec()));
 			nextRelation.setName(relationName);
 			nextRelation.setPlace(relationPlace);
-			nextRelation.setUrl(relationUrl);
+
+			String[] parts = StringUtils.split(relationUrl, '/');
+			nextRelation.setOsmId(parts[parts.length-1]);
+			nextRelation.setOsmType(parts[parts.length-2]);
+
 			if (relationNote != null) {
 				nextRelation.setNote(relationNote);
 			}
+
 			ec().saveChanges();
+
 			return pageWithName(Main.class);
+
 		} else {
 			message = "ERROR! Is something wrong? The name, place value and url must all be non-null.";
 			return this.context().page();

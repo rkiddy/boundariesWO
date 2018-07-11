@@ -26,10 +26,11 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public static final ERXKey<String> OSM_TYPE = new ERXKey<String>("osmType", Type.Attribute);
   public static final ERXKey<Long> PK = new ERXKey<Long>("pk", Type.Attribute);
   public static final ERXKey<String> PLACE = new ERXKey<String>("place", Type.Attribute);
-  public static final ERXKey<String> URL = new ERXKey<String>("url", Type.Attribute);
 
   // Relationship Keys
   public static final ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck> CHECKS = new ERXKey<org.ganymede.boundaries.eo.OsmRelationCheck>("checks", Type.ToManyRelationship);
+  public static final ERXKey<er.extensions.eof.ERXGenericRecord> RELATION_SET_JOINS = new ERXKey<er.extensions.eof.ERXGenericRecord>("relationSetJoins", Type.ToManyRelationship);
+  public static final ERXKey<org.ganymede.boundaries.eo.OsmRelationSet> RELATION_SETS = new ERXKey<org.ganymede.boundaries.eo.OsmRelationSet>("relationSets", Type.ToManyRelationship);
 
   // Attributes
   public static final String FIPS_KEY = FIPS.key();
@@ -39,10 +40,11 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public static final String OSM_TYPE_KEY = OSM_TYPE.key();
   public static final String PK_KEY = PK.key();
   public static final String PLACE_KEY = PLACE.key();
-  public static final String URL_KEY = URL.key();
 
   // Relationships
   public static final String CHECKS_KEY = CHECKS.key();
+  public static final String RELATION_SET_JOINS_KEY = RELATION_SET_JOINS.key();
+  public static final String RELATION_SETS_KEY = RELATION_SETS.key();
 
   private static final Logger log = LoggerFactory.getLogger(_OsmRelation.class);
 
@@ -115,15 +117,6 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
   public void setPlace(String value) {
     log.debug( "updating place from {} to {}", place(), value);
     takeStoredValueForKey(value, _OsmRelation.PLACE_KEY);
-  }
-
-  public String url() {
-    return (String) storedValueForKey(_OsmRelation.URL_KEY);
-  }
-
-  public void setUrl(String value) {
-    log.debug( "updating url from {} to {}", url(), value);
-    takeStoredValueForKey(value, _OsmRelation.URL_KEY);
   }
 
   public NSArray<org.ganymede.boundaries.eo.OsmRelationCheck> checks() {
@@ -208,6 +201,157 @@ public abstract class _OsmRelation extends  ERXGenericRecord {
     Enumeration<org.ganymede.boundaries.eo.OsmRelationCheck> objects = checks().immutableClone().objectEnumerator();
     while (objects.hasMoreElements()) {
       deleteChecksRelationship(objects.nextElement());
+    }
+  }
+
+  public NSArray<er.extensions.eof.ERXGenericRecord> relationSetJoins() {
+    return (NSArray<er.extensions.eof.ERXGenericRecord>)storedValueForKey(_OsmRelation.RELATION_SET_JOINS_KEY);
+  }
+
+  public NSArray<er.extensions.eof.ERXGenericRecord> relationSetJoins(EOQualifier qualifier) {
+    return relationSetJoins(qualifier, null, false);
+  }
+
+  public NSArray<er.extensions.eof.ERXGenericRecord> relationSetJoins(EOQualifier qualifier, boolean fetch) {
+    return relationSetJoins(qualifier, null, fetch);
+  }
+
+  public NSArray<er.extensions.eof.ERXGenericRecord> relationSetJoins(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings, boolean fetch) {
+    NSArray<er.extensions.eof.ERXGenericRecord> results;
+    if (fetch) {
+      EOQualifier fullQualifier;
+      EOQualifier inverseQualifier = ERXQ.equals("relation", this);
+
+      if (qualifier == null) {
+        fullQualifier = inverseQualifier;
+      }
+      else {
+        fullQualifier = ERXQ.and(qualifier, inverseQualifier);
+      }
+
+      ERXFetchSpecification<OsmRelation> fetchSpec = new ERXFetchSpecification<OsmRelation>("OsmRelationSetJoin", qualifier, sortOrderings);
+      results = (NSArray<er.extensions.eof.ERXGenericRecord>)editingContext().objectsWithFetchSpecification(fetchSpec);
+    }
+    else {
+      results = relationSetJoins();
+      if (qualifier != null) {
+        results = (NSArray<er.extensions.eof.ERXGenericRecord>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
+      }
+      if (sortOrderings != null) {
+        results = (NSArray<er.extensions.eof.ERXGenericRecord>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
+      }
+    }
+    return results;
+  }
+
+  public void addToRelationSetJoins(er.extensions.eof.ERXGenericRecord object) {
+    includeObjectIntoPropertyWithKey(object, _OsmRelation.RELATION_SET_JOINS_KEY);
+  }
+
+  public void removeFromRelationSetJoins(er.extensions.eof.ERXGenericRecord object) {
+    excludeObjectFromPropertyWithKey(object, _OsmRelation.RELATION_SET_JOINS_KEY);
+  }
+
+  public void addToRelationSetJoinsRelationship(er.extensions.eof.ERXGenericRecord object) {
+    log.debug("adding {} to relationSetJoins relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      addToRelationSetJoins(object);
+    }
+    else {
+      addObjectToBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SET_JOINS_KEY);
+    }
+  }
+
+  public void removeFromRelationSetJoinsRelationship(er.extensions.eof.ERXGenericRecord object) {
+    log.debug("removing {} from relationSetJoins relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      removeFromRelationSetJoins(object);
+    }
+    else {
+      removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SET_JOINS_KEY);
+    }
+  }
+
+  public er.extensions.eof.ERXGenericRecord createRelationSetJoinsRelationship() {
+    EOEnterpriseObject eo = EOUtilities.createAndInsertInstance(editingContext(), "OsmRelationSetJoin");
+    addObjectToBothSidesOfRelationshipWithKey(eo, _OsmRelation.RELATION_SET_JOINS_KEY);
+    return (er.extensions.eof.ERXGenericRecord) eo;
+  }
+
+  public void deleteRelationSetJoinsRelationship(er.extensions.eof.ERXGenericRecord object) {
+    removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SET_JOINS_KEY);
+  }
+
+  public void deleteAllRelationSetJoinsRelationships() {
+    Enumeration<er.extensions.eof.ERXGenericRecord> objects = relationSetJoins().immutableClone().objectEnumerator();
+    while (objects.hasMoreElements()) {
+      deleteRelationSetJoinsRelationship(objects.nextElement());
+    }
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationSet> relationSets() {
+    return (NSArray<org.ganymede.boundaries.eo.OsmRelationSet>)storedValueForKey(_OsmRelation.RELATION_SETS_KEY);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationSet> relationSets(EOQualifier qualifier) {
+    return relationSets(qualifier, null);
+  }
+
+  public NSArray<org.ganymede.boundaries.eo.OsmRelationSet> relationSets(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings) {
+    NSArray<org.ganymede.boundaries.eo.OsmRelationSet> results;
+      results = relationSets();
+      if (qualifier != null) {
+        results = (NSArray<org.ganymede.boundaries.eo.OsmRelationSet>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
+      }
+      if (sortOrderings != null) {
+        results = (NSArray<org.ganymede.boundaries.eo.OsmRelationSet>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
+      }
+    return results;
+  }
+
+  public void addToRelationSets(org.ganymede.boundaries.eo.OsmRelationSet object) {
+    includeObjectIntoPropertyWithKey(object, _OsmRelation.RELATION_SETS_KEY);
+  }
+
+  public void removeFromRelationSets(org.ganymede.boundaries.eo.OsmRelationSet object) {
+    excludeObjectFromPropertyWithKey(object, _OsmRelation.RELATION_SETS_KEY);
+  }
+
+  public void addToRelationSetsRelationship(org.ganymede.boundaries.eo.OsmRelationSet object) {
+    log.debug("adding {} to relationSets relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      addToRelationSets(object);
+    }
+    else {
+      addObjectToBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SETS_KEY);
+    }
+  }
+
+  public void removeFromRelationSetsRelationship(org.ganymede.boundaries.eo.OsmRelationSet object) {
+    log.debug("removing {} from relationSets relationship", object);
+    if (er.extensions.eof.ERXGenericRecord.InverseRelationshipUpdater.updateInverseRelationships()) {
+      removeFromRelationSets(object);
+    }
+    else {
+      removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SETS_KEY);
+    }
+  }
+
+  public org.ganymede.boundaries.eo.OsmRelationSet createRelationSetsRelationship() {
+    EOEnterpriseObject eo = EOUtilities.createAndInsertInstance(editingContext(),  org.ganymede.boundaries.eo.OsmRelationSet.ENTITY_NAME );
+    addObjectToBothSidesOfRelationshipWithKey(eo, _OsmRelation.RELATION_SETS_KEY);
+    return (org.ganymede.boundaries.eo.OsmRelationSet) eo;
+  }
+
+  public void deleteRelationSetsRelationship(org.ganymede.boundaries.eo.OsmRelationSet object) {
+    removeObjectFromBothSidesOfRelationshipWithKey(object, _OsmRelation.RELATION_SETS_KEY);
+    editingContext().deleteObject(object);
+  }
+
+  public void deleteAllRelationSetsRelationships() {
+    Enumeration<org.ganymede.boundaries.eo.OsmRelationSet> objects = relationSets().immutableClone().objectEnumerator();
+    while (objects.hasMoreElements()) {
+      deleteRelationSetsRelationship(objects.nextElement());
     }
   }
 

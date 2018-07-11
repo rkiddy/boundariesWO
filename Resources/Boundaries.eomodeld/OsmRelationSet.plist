@@ -1,0 +1,32 @@
+{
+    attributes = (
+        {columnName = name; name = name; prototypeName = varchar255; }, 
+        {
+            className = "java.lang.Number"; 
+            columnName = pk; 
+            externalType = INT; 
+            name = pk; 
+            precision = 10; 
+            valueType = l; 
+        }
+    ); 
+    attributesUsedForLocking = (name, pk); 
+    className = "org.ganymede.boundaries.eo.OsmRelationSet"; 
+    classProperties = (name, relations, relationsSetJoins); 
+    externalName = "osm_relation_sets"; 
+    fetchSpecificationDictionary = {}; 
+    name = OsmRelationSet; 
+    primaryKeyAttributes = (pk); 
+    relationships = (
+        {definition = "relationsSetJoins.relation"; name = relations; }, 
+        {
+            destination = OsmRelationSetJoin; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = setPk; sourceAttribute = pk; }); 
+            name = relationsSetJoins; 
+            ownsDestination = Y; 
+            propagatesPrimaryKey = Y; 
+        }
+    ); 
+}

@@ -15,6 +15,14 @@ public class OsmRelation extends _OsmRelation {
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(OsmRelation.class);
 
+	public String url() {
+		StringBuilder str = new StringBuilder();
+		str.append(this.osmType());
+		str.append("/");
+		str.append(this.osmId());
+		return str.toString();
+	}
+
 	public String fullUrl() {
 		StringBuilder str = new StringBuilder();
 		str.append("http://www.openstreetmap.org/");
