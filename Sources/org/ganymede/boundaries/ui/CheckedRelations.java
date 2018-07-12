@@ -51,21 +51,31 @@ public class CheckedRelations extends BaseComponent {
 
 	private String jsonForCheck(EOEditingContext ec, String osmType, String osmId) {
 
-		OsmRelation relation = OsmRelation.fetchOsmRelation(ec, ERXQ.is(OsmRelation.OSM_TYPE_KEY, osmType).and(ERXQ.is(OsmRelation.OSM_ID_KEY, osmId)));
-
 		NSMutableArray<String> parts = new NSMutableArray<>();
 
-		parts.add("\"name\": \"" + relation.name() + "\"");
-		parts.add("\"url\": \"" + relation.url() + "\"");
+		if (osmType != null && osmId != null) {
 
-		OsmRelationCheck check = relation.lastCheck();
+			OsmRelation relation = OsmRelation.fetchOsmRelation(ec, ERXQ.is(OsmRelation.OSM_TYPE_KEY, osmType).and(ERXQ.is(OsmRelation.OSM_ID_KEY, osmId)));
 
-		if (check == null) {
+			parts.add("\"name\": \"" + relation.name() + "\"");
+			parts.add("\"url\": \"" + relation.url() + "\"");
+
+			OsmRelationCheck check = relation.lastCheck();
+
+			if (check == null) {
+				parts.add("\"checkDate\": \"NULL\"");
+				parts.add("\"url\": \"NULL\"");
+			} else {
+				parts.add("\"checkDate\": \"" +check.checkedTime() + "\"");
+				parts.add("\"checkResult\": \"" +check.checkResult() + "\"");
+			}
+
+		} else {
+
+			parts.add("\"name\": \"NULL\"");
+			parts.add("\"url\": \"NULL\"");
 			parts.add("\"checkDate\": \"NULL\"");
 			parts.add("\"url\": \"NULL\"");
-		} else {
-			parts.add("\"checkDate\": \"" +check.checkedTime() + "\"");
-			parts.add("\"checkResult\": \"" +check.checkResult() + "\"");
 		}
 
 		return "{" + parts.componentsJoinedByString(", ") + "}";
