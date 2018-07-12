@@ -12,6 +12,10 @@ public class OsmRelation extends _OsmRelation {
 
 	private static final long serialVersionUID = 5644160825448587726L;
 
+	public static final String RELATION_API_BASE_URL = "https://www.openstreetmap.org/api/0.6/";
+	public static final String RELATION_API_WAY_URL = "https://www.openstreetmap.org/api/0.6/way/";
+	public static final String RELATION_API_NODE_URL = "https://www.openstreetmap.org/api/0.6/node/";
+
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(OsmRelation.class);
 
@@ -31,11 +35,11 @@ public class OsmRelation extends _OsmRelation {
 	}
 
 	public boolean isWay() {
-		return this.url().startsWith("way/");
+		return "way".equals(this.osmType());
 	}
 
 	public boolean isRelation() {
-		return this.url().startsWith("relation/");
+		return "relation".equals(this.osmType());
 	}
 
 	public OsmRelationCheck lastCheck() {

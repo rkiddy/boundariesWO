@@ -21,6 +21,7 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
   // Attribute Keys
   public static final ERXKey<NSTimestamp> CHECKED_TIME = new ERXKey<NSTimestamp>("checkedTime", Type.Attribute);
   public static final ERXKey<Long> CHECK_RESULT = new ERXKey<Long>("checkResult", Type.Attribute);
+  public static final ERXKey<String> MESSAGE = new ERXKey<String>("message", Type.Attribute);
   public static final ERXKey<String> OSM_UPDATE_DATE = new ERXKey<String>("osmUpdateDate", Type.Attribute);
 
   // Relationship Keys
@@ -29,6 +30,7 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
   // Attributes
   public static final String CHECKED_TIME_KEY = CHECKED_TIME.key();
   public static final String CHECK_RESULT_KEY = CHECK_RESULT.key();
+  public static final String MESSAGE_KEY = MESSAGE.key();
   public static final String OSM_UPDATE_DATE_KEY = OSM_UPDATE_DATE.key();
 
   // Relationships
@@ -60,6 +62,15 @@ public abstract class _OsmRelationCheck extends  ERXGenericRecord {
   public void setCheckResult(Long value) {
     log.debug( "updating checkResult from {} to {}", checkResult(), value);
     takeStoredValueForKey(value, _OsmRelationCheck.CHECK_RESULT_KEY);
+  }
+
+  public String message() {
+    return (String) storedValueForKey(_OsmRelationCheck.MESSAGE_KEY);
+  }
+
+  public void setMessage(String value) {
+    log.debug( "updating message from {} to {}", message(), value);
+    takeStoredValueForKey(value, _OsmRelationCheck.MESSAGE_KEY);
   }
 
   public String osmUpdateDate() {

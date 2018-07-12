@@ -106,10 +106,10 @@
                     <td>
                       <wo:AjaxInPlace>
                         <wo:ERXWOTemplate templateName = "view">
-                          <wo:if condition = "$relation.note"><wo:str value = "$relation.note" /></wo:if>
+                          <wo:if condition = "$relation.lastCheck.message"><wo:str value = "$relation.lastCheck.message" /></wo:if>
                           <wo:else>...</wo:else>
                         </wo:ERXWOTemplate>
-                        <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.note" /></wo:ERXWOTemplate>
+                        <wo:ERXWOTemplate templateName = "edit"><wo:WOTextField value = "$relation.lastCheck.message" /></wo:ERXWOTemplate>
                       </wo:AjaxInPlace>
                     </td>
                     <td>

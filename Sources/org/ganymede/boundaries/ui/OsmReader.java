@@ -10,7 +10,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.IOUtils;
 import org.ganymede.boundaries.eo.OsmRelation;
-import org.ganymede.boundaries.eo.OsmRelationCheck;
 import org.ganymede.boundaries.parse.OsmNodeData;
 import org.ganymede.boundaries.parse.OsmRelationData;
 import org.ganymede.boundaries.parse.OsmWayConnection;
@@ -19,68 +18,29 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.webobjects.appserver.WOActionResults;
-import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableDictionary;
-import com.webobjects.foundation.NSTimestamp;
 
-public class RelationUpdates extends BaseComponent {
+public class OsmReader {
 
-	private static final long serialVersionUID = 8944421947211919566L;
+	public OsmRelationData fetchOsmUpdateDate(OsmRelation relation) {
 
-	public RelationUpdates(WOContext context) {
-		super(context);
-	}
+		OsmRelationData data = new OsmRelationData();
 
-	public NSArray<OsmRelationCheck> checks() {
-		NSMutableArray<OsmRelationCheck> nextChecks = new NSMutableArray<>();
-		for (OsmRelation relation : OsmRelation.fetchAllOsmRelations(ec())) {
-			OsmRelationCheck lastCheck = relation.lastCheck();
-			if (lastCheck != null) {
-				nextChecks.add(relation.lastCheck());
-			}
-		}
-		return nextChecks;
-	}
-
-	public OsmRelationCheck check;
-
-	public OsmRelationData data;
-
-	public WOActionResults fetchOsmUpdateDate() {
-
-		data = new OsmRelationData();
-
-		readFromOSM("https://www.openstreetmap.org/api/0.6/" + check.relation().url(), null, null);
+		readFromOSM(data, OsmRelation.RELATION_API_BASE_URL + relation.url(), null, null);
 
 		for (OsmWayData way : data.ways) {
-			readFromOSM("https://www.openstreetmap.org/api/0.6/way/" + way.id, way, null);
+			readFromOSM(data, OsmRelation.RELATION_API_WAY_URL + way.id, way, null);
 
 			for (OsmNodeData node : way.nodes) {
-				readFromOSM("https://www.openstreetmap.org/api/0.6/node/" + node.id, way, node);
+				readFromOSM(data, OsmRelation.RELATION_API_NODE_URL + node.id, way, node);
 			}
 		}
 
-		boolean connectionsAreGood = this.connectionsAllConnect();
-
-		OsmRelationCheck nextCheck = OsmRelationCheck.createOsmRelationCheck(
-				ec(),
-				new NSTimestamp(),
-				connectionsAreGood ? 1L : 0L,
-				check.relation());
-
-		if (data.timestamp != null) {
-			nextCheck.setOsmUpdateDate(data.timestamp);
-		}
-
-		ec().saveChanges();
-
-		return this.context().page();
+		return data;
 	}
 
-	private void readFromOSM(String url, OsmWayData way, OsmNodeData node) {
+	private void readFromOSM(OsmRelationData data, String url, OsmWayData way, OsmNodeData node) {
 
 		System.out.println("readFromOSM: \"" + url + "\"");
 
@@ -165,7 +125,7 @@ public class RelationUpdates extends BaseComponent {
 		return null;
 	}
 
-	private boolean connectionsAllConnect() {
+	public boolean connectionsAllConnect(OsmRelationData data) {
 
 		NSMutableDictionary<String,OsmWayConnection> found = new NSMutableDictionary<>();
 

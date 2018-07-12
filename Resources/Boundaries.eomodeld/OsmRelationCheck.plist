@@ -17,6 +17,12 @@
         },
         {
             allowsNull = Y;
+            columnName = message;
+            name = message;
+            prototypeName = varchar255;
+        },
+        {
+            allowsNull = Y;
             columnName = "osm_update_date";
             externalType = varchar;
             name = osmUpdateDate;
@@ -42,7 +48,7 @@
     );
     attributesUsedForLocking = (pk, relationPk);
     className = "org.ganymede.boundaries.eo.OsmRelationCheck";
-    classProperties = (checkedTime, checkResult, osmUpdateDate, relation);
+    classProperties = (checkedTime, checkResult, message, osmUpdateDate, relation);
     externalName = "osm_relation_checks";
     fetchSpecificationDictionary = {};
     name = OsmRelationCheck;
